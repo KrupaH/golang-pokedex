@@ -24,12 +24,29 @@ type config struct {
 	Pokedex  map[string]pokedexApiHandler.Pokemon
 }
 
+func cleanInput(text string) []string {
+	// Clean input text
+	// The purpose of this function will be to split the users input into "words" based on whitespace. It should also lowercase the input and trim any leading or trailing whitespace. For example:
+
+	// hello world -> ["hello", "world"]
+	// Charmander Bulbasaur PIKACHU -> ["charmander", "bulbasaur", "pikachu"]
+	splitText := strings.Split(text, " ")
+	var output []string
+	for _, item := range splitText {
+		if item != "" {
+			output = append(output, strings.ToLower(item))
+		}
+	}
+	return output
+}
+
 func help(*config, *pokecache.Cache, ...string) error {
-	fmt.Println("Use command `help` to display help text, `exit` to exit, `map` to show next 20 locations, `mapb` to go back 20 locations.")
+	fmt.Println("Welcome to the Pokedex!\nUsage:\n\nhelp: Displays a help message\nexit: Exit the Pokedex")
 	return nil
 }
 
 func exit(*config, *pokecache.Cache, ...string) error {
+	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
 }
